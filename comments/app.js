@@ -8,33 +8,42 @@ const hbs = require("hbs");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 
+const commentsApiRouter = require("./routes/api/comments");
+const upvotesApiRouter = require("./routes/api/upvotes");
+
 const livereload = require("livereload");
 const connectLiveReload = require("connect-livereload");
 
 const app = express();
 
-const liveReloadServer = livereload.createServer();
-liveReloadServer.server.once("connection", (callbackData) => {
-  setTimeout(() => {
-    liveReloadServer.refresh("/");
-  }, 100);
-});
+if (process.env.NODE_ENV != "test") {
+  const liveReloadServer = livereload.createServer();
+  liveReloadServer.server.once("connection", (callbackData) => {
+    setTimeout(() => {
+      liveReloadServer.refresh("/");
+    }, 100);
+  });
 
-app.use(connectLiveReload());
+  // Disable in testing mode
+  app.use(connectLiveReload());
+  app.use(logger("dev"));
+}
 
-// view engine setup
 hbs.registerPartials(__dirname + "/views/partials");
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
-app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/comments", usersRouter);
+
+// API
+app.use("/api/comments", commentsApiRouter);
+app.use("/api/upvotes", upvotesApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
