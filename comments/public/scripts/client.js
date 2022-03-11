@@ -21,3 +21,28 @@ commentForm.addEventListener("submit", function (event) {
   });
   request.send(data);
 });
+
+const comments = document.querySelectorAll("[data-upvote-comment-id]");
+comments.forEach(function (el) {
+  el.addEventListener("click", function (event) {
+    var request = new XMLHttpRequest();
+    var url = "/api/upvotes/";
+    request.open("POST", url, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.onreadystatechange = function () {
+      if (request.readyState === 4 && request.status === 201) {
+        var jsonData = JSON.parse(request.response);
+        location.reload();
+      }
+      if (request.readyState === 4 && request.status === 500) {
+        var jsonData = JSON.parse(request.response);
+        alert(jsonData.message);
+      }
+    };
+    var commentId = this.dataset.upvoteCommentId;
+    var data = JSON.stringify({
+      commentId: commentId,
+    });
+    request.send(data);
+  });
+});

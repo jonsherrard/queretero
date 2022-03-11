@@ -13,13 +13,18 @@
     </div>
     <p class="my-3">{{text}}</p>
     <div class="text-xs font-bold text-gray-600">
-      <a class="mr-6">
-        <div class="relative inline-block w-3 mr-1 overflow-hidden bottom-px">
+      <a
+        class="mr-6 cursor-pointer hover:text-purple-500"
+        data-upvote-comment-id="{{id}}"
+      >
+        <div
+          class="relative inline-block w-3 mr-1 overflow-hidden hover:text-purple-600 bottom-px"
+        >
           <div
-            class="w-2 h-2 origin-bottom-left transform rotate-45 bg-gray-600"
+            class="w-2 h-2 origin-bottom-left transform rotate-45 bg-gray-600 hover:bg-purple-500"
           ></div>
         </div>
-        Upvote
+        Upvote ({{upvotes}})
       </a>
       <a>Reply</a>
     </div>

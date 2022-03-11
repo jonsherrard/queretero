@@ -1,4 +1,4 @@
 {{> commentInput}}
 {{#each comments}}
-  {{> comment username="Jon Sherrard" text=this.text timeAgo=this.timeAgo}}
+  {{> comment username="Jon Sherrard" text=this.text timeAgo=this.timeAgo id=this.id upvotes=this.upvotes }}
 {{/each}}
