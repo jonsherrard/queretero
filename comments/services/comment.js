@@ -21,6 +21,32 @@ const createComment = async function ({ text }) {
   }
 };
 
+const getComment = async function ({ commentId }) {
+  try {
+    const comment = await prisma.comment.findUnique({
+      where: {
+        id: parseInt(commentId),
+      },
+      include: {
+        _count: {
+          select: { upvotes: true },
+        },
+      },
+    });
+    // Flatten the response from Prisma ORM to be more "API-like"
+    const returnable = {
+      ...comment,
+      upvotes: comment._count.upvotes,
+    };
+    // This is probably terrible
+    delete returnable._count;
+    return returnable;
+  } catch (e) {
+    console.log({ serviceError: e });
+    throw new Error(e);
+  }
+};
+
 const readComments = async function ({ offset = 0, limit = 10 }) {
   try {
     const comments = await prisma.comment.findMany({
@@ -52,4 +78,5 @@ const readComments = async function ({ offset = 0, limit = 10 }) {
 module.exports = {
   createComment: createComment,
   readComments: readComments,
+  getComment: getComment,
 };

@@ -23,14 +23,14 @@ describe("API", function () {
       .get("/api/comments/36")
       .end((err, res) => {
         expect(res).to.have.status(200);
-        expect(res.body.count).to.contain("5");
+        expect(res.body.upvotes).an("number");
       });
   });
   it("Creates a new upvote and returns 201", function () {
     chai
       .request(server)
       .post("/api/upvotes/")
-      .send({ commentId: 36 })
+      .send({ commentId: 37 })
       .end((err, res) => {
         expect(res).to.have.status(201);
         expect(res.body.message).to.contain("Upvote submitted");
