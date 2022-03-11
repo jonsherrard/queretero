@@ -46,3 +46,11 @@ comments.forEach(function (el) {
     request.send(data);
   });
 });
+
+const replyButtons = document.querySelectorAll(".reply-button");
+replyButtons.forEach(function (el) {
+  el.addEventListener("click", function () {
+    const commentInput = document.getElementById("comment-input");
+    commentInput.focus();
+  });
+});
