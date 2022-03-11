@@ -28,30 +28,42 @@ const { createElement, useState } = React;
 const render = ReactDOM.render;
 const html = htm.bind(createElement);
 
-function ClickCounter({ initialUpvoteCount, commentId }) {
+const registerUpvote = function ({
+  commentId,
+  successCallback = () => "noop",
+  failureCallback = () => "noop",
+}) {
+  var request = new XMLHttpRequest();
+  var url = "/api/upvotes/";
+  request.open("POST", url, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  request.onreadystatechange = function () {
+    if (request.readyState === 4 && request.status === 201) {
+      var jsonData = JSON.parse(request.response);
+      successCallback(jsonData);
+    }
+    if (request.readyState === 4 && request.status === 500) {
+      var jsonData = JSON.parse(request.response);
+      failureCallback(jsonData);
+    }
+  };
+  var data = JSON.stringify({
+    commentId: commentId,
+  });
+  request.send(data);
+};
+
+function Upvoter({ initialUpvoteCount, commentId }) {
   const [count, setCount] = useState(initialUpvoteCount);
 
   return html`
     <a
       onClick=${() => {
-        setCount(count + 1);
-        var request = new XMLHttpRequest();
-        var url = "/api/upvotes/";
-        request.open("POST", url, true);
-        request.setRequestHeader("Content-Type", "application/json");
-        request.onreadystatechange = function () {
-          if (request.readyState === 4 && request.status === 201) {
-            var jsonData = JSON.parse(request.response);
-          }
-          if (request.readyState === 4 && request.status === 500) {
-            var jsonData = JSON.parse(request.response);
-            setCount(count - 1);
-          }
-        };
-        var data = JSON.stringify({
-          commentId: commentId,
+        registerUpvote({
+          commentId,
+          successCallback: () => setCount(count + 1),
+          failureCallback: () => setCount(count - 1),
         });
-        request.send(data);
       }}
       className="mr-6 cursor-pointer hover:text-purple-500"
     >
@@ -72,7 +84,7 @@ comments.forEach(function (el) {
   const initialUpvoteCount = parseInt(el.dataset.initialUpvoteCount);
   const upvoteCommentId = parseInt(el.dataset.upvoteCommentId);
   render(
-    html`<${ClickCounter}
+    html`<${Upvoter}
       initialUpvoteCount="${initialUpvoteCount}"
       commentId="${upvoteCommentId}"
     />`,
