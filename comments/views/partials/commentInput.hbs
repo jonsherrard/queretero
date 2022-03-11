@@ -4,16 +4,20 @@
     class="self-start mr-4 rounded-full"
     src="https://placeimg.com/40/40/people"
   />
-  <form class="flex w-full">
+  <form id="comment-form" class="flex w-full">
     <input
+      name="comment"
+      id="comment-input"
       type="text"
       class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-purple-600 focus:outline-none"
       placeholder="What are your thoughts?"
     />
-    <button
-      type="button"
+    <input
+      id="comment-submit"
+      type="submit"
       class="ml-3 inline-block px-6 py-2.5 bg-purple-600 text-white font-text-xs leading-tight font-medium rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-    >Comment</button>
+      value="Comment"
+    />
 
   </form>
 </section>

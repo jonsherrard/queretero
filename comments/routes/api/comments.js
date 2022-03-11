@@ -10,13 +10,13 @@ router.get("/", function (req, res, next) {
 
 /* POST Create new comment */
 
-router.post("/", async function (req, rest) {
+router.post("/", async function (req, res) {
   const body = req.body;
   try {
     commentService.createComment({ text: body.text });
-    res.sendStatus(201);
+    res.status(201).json({ message: "Comment submitted" });
   } catch (e) {
-    res.sendStatus(500);
+    res.status(500).json({ message: "Comment submission failed" });
   }
 });
 
