@@ -4,15 +4,21 @@
   "private": true,
   "scripts": {
     "start": "DEBUG=comments:* node ./bin/www",
-    "watch": "DEBUG=comments:* nodemon ./bin/www --ext '*'"
+    "watch": "DEBUG=comments:* nodemon ./bin/www --ext '*'",
+    "test": "NODE_ENV=test mocha --exit"
   },
   "dependencies": {
+    "@prisma/client": "^3.10.0",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
+    "mocha": "^9.2.1",
+    "morgan": "~1.9.1",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "connect-livereload": "^0.6.1",

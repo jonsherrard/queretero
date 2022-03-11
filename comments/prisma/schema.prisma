@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./comments.db"
+}
+
+model Comment {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now()) @map("created_at")
+  text      String
+  Upvote    Upvote[]
+  parent    Comment?  @relation("CommentToComment", fields: [parentCommentId], references: [id])
+  parentCommentId Int?
+  Comment   Comment[] @relation("CommentToComment")
+}
+
+model Upvote {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  comment   Comment  @relation(fields: [commentId], references: [id])
+  commentId Int
+}
