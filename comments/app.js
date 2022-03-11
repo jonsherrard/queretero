@@ -1,16 +1,17 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const hbs = require("hbs");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
 
-var livereload = require("livereload");
-var connectLiveReload = require("connect-livereload");
+const livereload = require("livereload");
+const connectLiveReload = require("connect-livereload");
 
-var app = express();
+const app = express();
 
 const liveReloadServer = livereload.createServer();
 liveReloadServer.server.once("connection", (callbackData) => {
@@ -22,6 +23,7 @@ liveReloadServer.server.once("connection", (callbackData) => {
 app.use(connectLiveReload());
 
 // view engine setup
+hbs.registerPartials(__dirname + "/views/partials");
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
