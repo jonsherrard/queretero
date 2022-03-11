@@ -2,6 +2,12 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
+const TimeAgo = require("javascript-time-ago");
+const en = require("javascript-time-ago/locale/en.json");
+
+TimeAgo.addDefaultLocale(en);
+const timeAgo = new TimeAgo("en-US");
+
 const createComment = async function ({ text }) {
   try {
     await prisma.comment.create({
@@ -23,8 +29,20 @@ const readComments = async function ({ offset = 0, limit = 10 }) {
       orderBy: {
         createdAt: "desc",
       },
+      include: {
+        _count: {
+          select: { upvotes: true },
+        },
+      },
     });
-    return comments;
+    const enrichedComments = comments.map((comment) => {
+      return {
+        ...comment,
+        upvotes: comment._count.upvotes,
+        timeAgo: timeAgo.format(comment.createdAt),
+      };
+    });
+    return enrichedComments;
   } catch (e) {
     console.log({ serviceError: e });
     throw new Error(e);

@@ -6,7 +6,7 @@ const createUpvote = async function ({ commentId }) {
   try {
     await prisma.upvote.create({
       data: {
-        commentId: commentId,
+        commentId: parseInt(commentId),
       },
     });
   } catch (e) {
