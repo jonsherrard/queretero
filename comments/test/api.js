@@ -17,11 +17,20 @@ describe("API", function () {
         expect(res.body.message).to.contain("Comment submitted");
       });
   });
+  it("Returns the number of votes for a comment", function () {
+    chai
+      .request(server)
+      .get("/api/comments/36")
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.count).to.contain("5");
+      });
+  });
   it("Creates a new upvote and returns 201", function () {
     chai
       .request(server)
       .post("/api/upvotes/")
-      .send({ commentId: 9 })
+      .send({ commentId: 36 })
       .end((err, res) => {
         expect(res).to.have.status(201);
         expect(res.body.message).to.contain("Upvote submitted");
