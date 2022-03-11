@@ -10,13 +10,13 @@ router.get("/", function (req, res, next) {
 
 /* POST Create new comment */
 
-router.post("/", async function (req, rest) {
+router.post("/", async function (req, res) {
   const body = req.body;
   try {
     upvoteService.createUpvote({ commentId: body.commentId });
-    res.sendStatus(201);
+    res.status(201).send({ message: "Upvote submitted" });
   } catch (e) {
-    res.sendStatus(500);
+    res.status(500).send({ message: "Upvote submission failed" });
   }
 });
 

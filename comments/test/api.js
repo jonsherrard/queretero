@@ -14,6 +14,7 @@ describe("API", function () {
       })
       .end((err, res) => {
         expect(res).to.have.status(201);
+        expect(res.body.message).to.contain("Comment submitted");
       });
   });
   it("Creates a new upvote and returns 201", function () {
@@ -23,6 +24,7 @@ describe("API", function () {
       .send({ commentId: 9 })
       .end((err, res) => {
         expect(res).to.have.status(201);
+        expect(res.body.message).to.contain("Upvote submitted");
       });
   });
 });
