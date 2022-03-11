@@ -92,10 +92,12 @@ comments.forEach(function (el) {
   );
 });
 
-const replyButtons = document.querySelectorAll(".reply-button");
+const replyButtons = document.querySelectorAll(".app-reply");
 replyButtons.forEach(function (el) {
-  el.addEventListener("click", function () {
-    const commentInput = document.getElementById("comment-input");
-    commentInput.focus();
+  el.addEventListener("click", function (event) {
+    const parent = event.currentTarget.closest(".comment-container");
+    const replyForm = parent.querySelectorAll(".app-reply-input")[0];
+    console.log({ replyForm });
+    replyForm.classList.toggle("hidden");
   });
 });
