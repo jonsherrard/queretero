@@ -69,7 +69,6 @@ function ClickCounter({ initialUpvoteCount, commentId }) {
 
 const comments = document.querySelectorAll(".app-upvote");
 comments.forEach(function (el) {
-  console.log(el);
   const initialUpvoteCount = parseInt(el.dataset.initialUpvoteCount);
   const upvoteCommentId = parseInt(el.dataset.upvoteCommentId);
   render(
