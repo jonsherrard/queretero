@@ -19,7 +19,9 @@ commentForm.addEventListener("submit", function (event) {
   var data = JSON.stringify({
     text: comment,
   });
-  request.send(data);
+  if (comment.length != 0) {
+    request.send(data);
+  }
 });
 
 const comments = document.querySelectorAll("[data-upvote-comment-id]");
