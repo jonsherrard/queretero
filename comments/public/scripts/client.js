@@ -1,27 +1,31 @@
-const commentForm = document.getElementById("comment-form");
-commentForm.addEventListener("submit", function (event) {
-  event.preventDefault();
-  var request = new XMLHttpRequest();
-  var url = "/api/comments/";
-  request.open("POST", url, true);
-  request.setRequestHeader("Content-Type", "application/json");
-  request.onreadystatechange = function () {
-    if (request.readyState === 4 && request.status === 201) {
-      var jsonData = JSON.parse(request.response);
-      location.reload();
+const commentForms = document.querySelectorAll(".app-comment-form");
+commentForms.forEach(function (form) {
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var request = new XMLHttpRequest();
+    var url = "/api/comments/";
+    request.open("POST", url, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.onreadystatechange = function () {
+      if (request.readyState === 4 && request.status === 201) {
+        var jsonData = JSON.parse(request.response);
+        location.reload();
+      }
+      if (request.readyState === 4 && request.status === 500) {
+        var jsonData = JSON.parse(request.response);
+        alert(jsonData.message);
+      }
+    };
+    var parentId = form.querySelectorAll(".app-parent-input")[0].value;
+    var comment = form.querySelectorAll(".app-comment-input")[0].value;
+    var data = JSON.stringify({
+      text: comment,
+      parentId,
+    });
+    if (comment.length != 0) {
+      request.send(data);
     }
-    if (request.readyState === 4 && request.status === 500) {
-      var jsonData = JSON.parse(request.response);
-      alert(jsonData.message);
-    }
-  };
-  var comment = document.getElementById("comment-input").value;
-  var data = JSON.stringify({
-    text: comment,
   });
-  if (comment.length != 0) {
-    request.send(data);
-  }
 });
 
 const { createElement, useState } = React;
@@ -97,7 +101,6 @@ replyButtons.forEach(function (el) {
   el.addEventListener("click", function (event) {
     const parent = event.currentTarget.closest(".comment-container");
     const replyForm = parent.querySelectorAll(".app-reply-input")[0];
-    console.log({ replyForm });
     replyForm.classList.toggle("hidden");
   });
 });

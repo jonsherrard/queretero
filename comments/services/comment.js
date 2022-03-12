@@ -56,8 +56,14 @@ const readComments = async function ({ offset = 0, limit = 10 }) {
       orderBy: {
         createdAt: "desc",
       },
+      where: {
+        parentCommentId: null,
+      },
       include: {
         children: {
+          orderBy: {
+            createdAt: "asc",
+          },
           include: {
             _count: {
               select: {
