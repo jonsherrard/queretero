@@ -36,5 +36,5 @@
   {{/unless}}
 </div>
 {{#each childComments}}
-  {{> comment reply=true username="Jon Sherrard" text=this.text timeAgo=this.timeAgo id=this.id upvotes=this._count.upvotes}}
+  {{> comment reply=true username="Jon Sherrard" text=this.text timeAgo=this.timeAgo id=this.id upvotes=this.upvotes}}
 {{/each}}

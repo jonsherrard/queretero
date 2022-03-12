@@ -48,6 +48,15 @@ const getComment = async function ({ commentId }) {
   }
 };
 
+const enrichComment = (comment) => {
+  return {
+    ...comment,
+    upvotes: comment._count.upvotes,
+    timeAgo: timeAgo.format(comment.createdAt),
+    children: comment.children ? comment.children.map(enrichComment) : null,
+  };
+};
+
 const readComments = async function ({ offset = 0, limit = 10 }) {
   try {
     const comments = await prisma.comment.findMany({
@@ -77,13 +86,7 @@ const readComments = async function ({ offset = 0, limit = 10 }) {
         },
       },
     });
-    const enrichedComments = comments.map((comment) => {
-      return {
-        ...comment,
-        upvotes: comment._count.upvotes,
-        timeAgo: timeAgo.format(comment.createdAt),
-      };
-    });
+    const enrichedComments = comments.map(enrichComment);
     return enrichedComments;
   } catch (e) {
     console.log({ serviceError: e });
