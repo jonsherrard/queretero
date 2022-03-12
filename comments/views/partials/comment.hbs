@@ -2,11 +2,11 @@
   <article class="{{#if reply}} pl-9 border-l-2 {{/if}} flex">
     <img
       class="self-start mr-4 rounded-full"
-      src="https://placeimg.com/40/40/people"
+      src="https://placeimg.com/40/40/people?v={{faker "address.zipCode"}}"
     />
     <div>
       <div class="flex">
-        <span class="font-bold text-s text-gray-900m">{{username}}</span>
+        <span class="font-bold text-s text-gray-900m">{{faker "name.firstName"}} {{faker "name.lastName"}}</span> 
         <span
           class="self-center mx-2 text-gray-500 bg-gray-500 w-0.5 h-0.5 rounded-full text-xs"
         ></span>
