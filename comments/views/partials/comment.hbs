@@ -1,24 +1,40 @@
-<article class="flex mb-14">
-  <img
-    class="self-start mr-4 rounded-full"
-    src="https://placeimg.com/40/40/people"
-  />
-  <div>
-    <div class="flex">
-      <span class="font-bold text-s text-gray-900m">{{username}}</span>
-      <span
-        class="self-center mx-2 text-gray-500 bg-gray-500 w-0.5 h-0.5 rounded-full text-xs"
-      ></span>
-      <span class="self-center text-xs text-gray-500">{{timeAgo}}</span>
-    </div>
-    <p class="my-3">{{text}}</p>
-    <div class="text-xs font-bold text-gray-600">
-      <div
-        class="app-upvote"
-        data-upvote-comment-id="{{id}}"
-        data-initial-upvote-count="{{upvotes}}"
-      >
-      <a class="cursor-pointer hover:text-blue-600 reply-button">Reply</a>
-    </div>
+<div class="mb-10 {{#if reply}} ml-5 {{/if}} comment-container">
+  <article class="{{#if reply}} pl-9 border-l-2 {{/if}} flex">
+    <img
+      class="self-start mr-4 rounded-full"
+      src="https://placeimg.com/40/40/people"
+    />
+    <div>
+      <div class="flex">
+        <span class="font-bold text-s text-gray-900m">{{username}}</span>
+        <span
+          class="self-center mx-2 text-gray-500 bg-gray-500 w-0.5 h-0.5 rounded-full text-xs"
+        ></span>
+        <span class="self-center text-xs text-gray-500">{{timeAgo}}</span>
+      </div>
+      <p class="my-3">{{text}}</p>
+      <div class="flex">
+        <div class="text-xs font-bold text-gray-600">
+          <div
+            class="app-upvote"
+            data-upvote-comment-id="{{id}}"
+            data-initial-upvote-count="{{upvotes}}"
+          >
+          </div>
+        </div>
+        {{#unless reply}}
+        <div class="text-xs font-bold text-gray-600">
+          <a class="cursor-pointer app-reply hover:text-blue-600">Reply</a>
+        </div>
+        {{/unless}}
+      </div>
+  </article>
+  {{#unless reply}}
+  <div class="hidden mt-8 app-reply-input ml-14">
+    {{> commentInput buttonText="Reply" parentId=this.id}}
   </div>
-</article>
+  {{/unless}}
+</div>
+{{#each childComments}}
+  {{> comment reply=true username="Jon Sherrard" text=this.text timeAgo=this.timeAgo id=this.id upvotes=this._count.upvotes}}
+{{/each}}

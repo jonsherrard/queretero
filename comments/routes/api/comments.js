@@ -7,7 +7,10 @@ const commentService = require("../../services/comment");
 router.post("/", async function (req, res) {
   const body = req.body;
   try {
-    commentService.createComment({ text: body.text });
+    commentService.createComment({
+      text: body.text,
+      parentId: req.body.parentId || null,
+    });
     res.status(201).json({ message: "Comment submitted" });
   } catch (e) {
     res.status(500).json({ message: "Comment submission failed" });

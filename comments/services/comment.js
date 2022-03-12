@@ -8,11 +8,12 @@ const en = require("javascript-time-ago/locale/en.json");
 TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
-const createComment = async function ({ text }) {
+const createComment = async function ({ text, parentId = null }) {
   try {
     await prisma.comment.create({
       data: {
         text: text,
+        parentCommentId: parentId ? parseInt(parentId) : null,
       },
     });
   } catch (e) {
@@ -55,7 +56,22 @@ const readComments = async function ({ offset = 0, limit = 10 }) {
       orderBy: {
         createdAt: "desc",
       },
+      where: {
+        parentCommentId: null,
+      },
       include: {
+        children: {
+          orderBy: {
+            createdAt: "asc",
+          },
+          include: {
+            _count: {
+              select: {
+                upvotes: true,
+              },
+            },
+          },
+        },
         _count: {
           select: { upvotes: true },
         },

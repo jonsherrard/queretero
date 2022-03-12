@@ -17,6 +17,20 @@ describe("API", function () {
         expect(res.body.message).to.contain("Comment submitted");
       });
   });
+
+  it("Creates a new comment with a parent and returns 201", function () {
+    chai
+      .request(server)
+      .post("/api/comments/")
+      .send({
+        text: "This reply comment was sent by the test suite",
+        parentId: 37,
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(201);
+        expect(res.body.message).to.contain("Comment submitted");
+      });
+  });
   it("Returns the number of votes for a comment", function () {
     chai
       .request(server)

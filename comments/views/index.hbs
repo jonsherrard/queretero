@@ -1,4 +1,6 @@
-{{> commentInput}}
+<h2 class="mb-10 text-xl font-bold">Discussion</h2>
+{{> commentInput buttonText="Comment"}}
+<hr class="my-10" />
 {{#each comments}}
-  {{> comment username="Jon Sherrard" text=this.text timeAgo=this.timeAgo id=this.id upvotes=this.upvotes }}
+  {{> comment username="Jon Sherrard" text=this.text timeAgo=this.timeAgo id=this.id upvotes=this.upvotes childComments=this.children}}
 {{/each}}
