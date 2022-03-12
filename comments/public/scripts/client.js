@@ -59,7 +59,11 @@ const registerUpvote = function ({
 
 function Upvoter({ initialUpvoteCount, commentId }) {
   const [count, setCount] = useState(initialUpvoteCount);
-
+  React.useEffect(() => {
+    window.socketService.on("upvote", function (msg) {
+      if (msg.commentId == commentId) setCount(count + 1);
+    });
+  }, []);
   return html`
     <a
       onClick=${() => {
