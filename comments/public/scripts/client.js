@@ -57,20 +57,12 @@ const registerUpvote = function ({
   request.send(data);
 };
 
-function Upvoter({ initialUpvoteCount, commentId }) {
-  const [count, setCount] = useState(initialUpvoteCount);
-  React.useEffect(() => {
-    window.socketService.on("upvote", function (msg) {
-      if (msg.commentId == commentId) setCount(count + 1);
-    });
-  }, []);
+const Upvoter = React.memo(({ initialUpvoteCount, commentId }) => {
   return html`
     <a
-      onClick=${() => {
+      onClick=${(event) => {
         registerUpvote({
           commentId,
-          successCallback: () => setCount(count + 1),
-          failureCallback: () => setCount(count - 1),
         });
       }}
       className="mr-6 cursor-pointer hover:text-purple-500"
@@ -82,23 +74,76 @@ function Upvoter({ initialUpvoteCount, commentId }) {
           className="w-2 h-2 origin-bottom-left transform rotate-45 bg-gray-600 hover:bg-purple-500"
         ></div>
       </div>
-      Upvote (${count})
+      Upvote (${initialUpvoteCount})
     </a>
   `;
+});
+
+function UpvoteManager({ comments }) {
+  const initialState = [];
+  comments.forEach(function (el) {
+    const initialUpvoteCount = parseInt(el.dataset["initialUpvoteCount"]);
+    const upvoteCommentId = parseInt(el.dataset["upvoteCommentId"]);
+    initialState.push({
+      count: initialUpvoteCount,
+      commentId: upvoteCommentId,
+      el,
+    });
+  });
+
+  const reducer = function (state, action) {
+    switch (action.type) {
+      case "increment":
+        const newState = state.map((item) => {
+          if (item.commentId === action.field) {
+            return {
+              ...item,
+              count: item.count + 1,
+            };
+          }
+          return item;
+        });
+        return newState;
+      default:
+        throw new Error("Action type missing in dispatch");
+    }
+  };
+
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+
+  React.useEffect(() => {
+    window.socketService.on(
+      "upvote",
+      function (msg) {
+        dispatch({
+          type: "increment",
+          field: msg.commentId,
+        });
+      },
+      []
+    );
+    return () => {
+      window.socketService.removeAllListeners("upvote");
+    };
+  });
+
+  return state.map(({ count, commentId, el }) => {
+    return ReactDOM.createPortal(
+      html`<${Upvoter}
+        initialUpvoteCount="${count}"
+        commentId="${commentId}"
+      />`,
+      el
+    );
+  });
 }
 
 const comments = document.querySelectorAll(".app-upvote");
-comments.forEach(function (el) {
-  const initialUpvoteCount = parseInt(el.dataset.initialUpvoteCount);
-  const upvoteCommentId = parseInt(el.dataset.upvoteCommentId);
-  render(
-    html`<${Upvoter}
-      initialUpvoteCount="${initialUpvoteCount}"
-      commentId="${upvoteCommentId}"
-    />`,
-    el
-  );
-});
+
+render(
+  html`<${UpvoteManager} comments="${comments}" />`,
+  document.getElementById("upvote-manager")
+);
 
 const replyButtons = document.querySelectorAll(".app-reply");
 replyButtons.forEach(function (el) {
