@@ -17,7 +17,7 @@ const connectLiveReload = require("connect-livereload");
 
 const app = express();
 
-if (process.env.NODE_ENV != "test") {
+if (process.env.NODE_ENV != "test" || process.env.NODE_ENV === "production") {
   // Disable in testing mode
   const liveReloadServer = livereload.createServer();
   liveReloadServer.server.once("connection", (callbackData) => {
