@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "postinstall": "npx prisma generate",
     "start": "DEBUG=comments:* node ./bin/www",
     "watch": "DEBUG=comments:* nodemon ./bin/www --ext '*'",
     "test": "NODE_ENV=test mocha --exit"
