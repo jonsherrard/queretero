@@ -2,6 +2,8 @@
 
 Hello there! Welcome to my coding application
 
+[Visit the site here: [App](https://queretero.onrender.com/)
+
 ## Running the Application at V2 Stage:
 
 ```sh
@@ -34,7 +36,7 @@ Click reply to open a nested reply form.
 
 ## Overview
 
-```
+```md
 View: Handlebars
 Server: Express
 JavaScript: Vanilla (public/scripts/client.js)
@@ -44,16 +46,17 @@ Database: SQLite with Prisma ORM and Migrations Tool
 
 ## Overview
 
-```
+```md
 View: Handlebars
 Server: Express
 JavaScript:
-  - Vanilla (public/scripts/client.js)
-  - `htm` hosted on unpkg
-  - `React` hosted on unpkg
-  - `ReactDOM hosted on unpkg
-CSS: Tailwind.css hosted by tailwind
-Database: SQLite with Prisma ORM and Migrations Tool
+
+- Vanilla (public/scripts/client.js)
+- `htm` hosted on unpkg
+- `React` hosted on unpkg
+- `ReactDOM hosted on unpkg
+  CSS: Tailwind.css hosted by tailwind
+  Database: SQLite with Prisma ORM and Migrations Tool
 ```
 
 ## Notes
@@ -63,7 +66,37 @@ Database: SQLite with Prisma ORM and Migrations Tool
 ## Testing
 
 - I wrote some automated tests for the `POST` APIs.
-- Everything else was manually tested
+- Everything else wasx manually tested
+
+## Development Journey
+
+I document the larger phases of work through Pull Requests.
+
+### Version 1
+
+1. [Static HTML and CSS layout for comments based on Figma Design](https://github.com/jonsherrard/queretero/pull/1) | [Files](https://github.com/jonsherrard/queretero/pull/1/files)
+
+2. [Static HTML and CSS for the input form based on Figma Design](https://github.com/jonsherrard/queretero/pull/2) | [Files](https://github.com/jonsherrard/queretero/pull/2/files)
+
+3. [Basic comments endpoint and introduction of Prisma ORM](https://github.com/jonsherrard/queretero/pull/3) | [Files](https://github.com/jonsherrard/queretero/pull/3/files)
+
+4. [Vanillla JavaScript AJAX form posting](https://github.com/jonsherrard/queretero/pull/4) | [Files](https://github.com/jonsherrard/queretero/pull/4/files)
+5. [Server rendering of stored comments](https://github.com/jonsherrard/queretero/pull/5) | [Files](https://github.com/jonsherrard/queretero/pull/5/files)
+6. [Upvote API and Upvote client .js](https://github.com/jonsherrard/queretero/pull/6) | [Files](https://github.com/jonsherrard/queretero/pull/6/files)
+7. [Focus reply input UX tweak](https://github.com/jonsherrard/queretero/pull/7) | [Files](https://github.com/jonsherrard/queretero/pull/7/files)
+8. [Mobile CSS styles](https://github.com/jonsherrard/queretero/pull/8) | [Files](https://github.com/jonsherrard/queretero/pull/8/files)
+
+### Version 2
+
+9. [First version of React-powered upvoting client (not realtime)](https://github.com/jonsherrard/queretero/pull/9) | [Files](https://github.com/jonsherrard/queretero/pull/9/files)
+10. [First-pass at adding realtime to Upvotes](https://github.com/jonsherrard/queretero/pull/11) | [Files](https://github.com/jonsherrard/queretero/pull/11/files)
+11. [Refactor of state management in the client to prevent WebSocket listener bug](https://github.com/jonsherrard/queretero/pull/11) | [Files](https://github.com/jonsherrard/queretero/pull/11)
+
+---
+
+N.B There are some "in-between" commits for updating packages, tidying commits, and amending typos. [Full commit list](https://github.com/jonsherrard/queretero/commits/main)
+
+---
 
 ## Running the Application at V1 Stage:
 
@@ -106,3 +139,7 @@ Database: SQLite with Prisma ORM and Migrations Tool
 
 - I wrote some automated tests for the `POST` APIs.
 - Everything else is manually tested
+
+---
+
+Thank you for reading if you got this far!
