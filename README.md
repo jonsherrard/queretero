@@ -2,8 +2,6 @@
 
 Hello there! Welcome to my coding application
 
-[Visit the site here: [App](https://queretero.onrender.com/)
-
 ## Running the Application at V2 Stage:
 
 ```sh
