@@ -57,7 +57,7 @@ const enrichComment = (comment) => {
   };
 };
 
-const readComments = async function ({ offset = 0, limit = 10 }) {
+const getCommentList = async function ({ offset = 0, limit = 10 }) {
   try {
     const comments = await prisma.comment.findMany({
       skip: offset,
@@ -96,6 +96,6 @@ const readComments = async function ({ offset = 0, limit = 10 }) {
 
 module.exports = {
   createComment: createComment,
-  readComments: readComments,
+  getCommentList: getCommentList,
   getComment: getComment,
 };

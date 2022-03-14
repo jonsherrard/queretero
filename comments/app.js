@@ -8,7 +8,6 @@ var FakerHandlebarsHelper = require("handlebars-faker");
 hbs.registerHelper("faker", FakerHandlebarsHelper);
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
 
 const commentsApiRouter = require("./routes/api/comments");
 const upvotesApiRouter = require("./routes/api/upvotes");
@@ -19,6 +18,7 @@ const connectLiveReload = require("connect-livereload");
 const app = express();
 
 if (process.env.NODE_ENV != "test") {
+  // Disable in testing mode
   const liveReloadServer = livereload.createServer();
   liveReloadServer.server.once("connection", (callbackData) => {
     setTimeout(() => {
@@ -26,7 +26,6 @@ if (process.env.NODE_ENV != "test") {
     }, 100);
   });
 
-  // Disable in testing mode
   app.use(connectLiveReload());
   app.use(logger("dev"));
 }
@@ -40,10 +39,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Websockets
-
 app.use("/", indexRouter);
-app.use("/comments", usersRouter);
 
 // API
 app.use("/api/comments", commentsApiRouter);
