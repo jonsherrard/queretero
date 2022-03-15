@@ -37,16 +37,6 @@ Click reply to open a nested reply form.
 ```md
 View: Handlebars
 Server: Express
-JavaScript: Vanilla (public/scripts/client.js)
-CSS: Tailwind.css
-Database: SQLite with Prisma ORM and Migrations Tool
-```
-
-## Overview
-
-```md
-View: Handlebars
-Server: Express
 JavaScript:
 
 - Vanilla (public/scripts/client.js)
