@@ -13,8 +13,7 @@ const commentsApiRouter = require("./routes/api/comments");
 const upvotesApiRouter = require("./routes/api/upvotes");
 
 const app = express();
-
-if (process.env.NODE_ENV != "test" || process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "dev") {
   const livereload = require("livereload");
   const connectLiveReload = require("connect-livereload");
   // Disable in testing mode
