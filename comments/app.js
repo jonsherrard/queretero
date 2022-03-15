@@ -12,12 +12,11 @@ const indexRouter = require("./routes/index");
 const commentsApiRouter = require("./routes/api/comments");
 const upvotesApiRouter = require("./routes/api/upvotes");
 
-const livereload = require("livereload");
-const connectLiveReload = require("connect-livereload");
-
 const app = express();
 
 if (process.env.NODE_ENV != "test" || process.env.NODE_ENV === "production") {
+  const livereload = require("livereload");
+  const connectLiveReload = require("connect-livereload");
   // Disable in testing mode
   const liveReloadServer = livereload.createServer();
   liveReloadServer.server.once("connection", (callbackData) => {
